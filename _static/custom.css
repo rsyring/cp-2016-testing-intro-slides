@@ -7,21 +7,39 @@ h1 {
 }
 
 q {
-    font-size: 1.5em;
+    font-size: 1em;
     margin-right: auto;
+    line-height: 1em;
 }
 
 q:after {
     display: none;
 }
 
-#database-testing q {
+
+#automated-testing-overview-best-practices q {
     position: absolute;
-    bottom: 1em;
+    bottom: 3em;
+    font-size: 1.5em;
+    margin-right: auto;
 }
 
-#database-testing img {
+
+#automated-testing-overview-best-practices img {
     position: absolute;
     bottom: 1.2em;
     right: 2em;
+}
+
+.fullpic {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+}
+
+#thanks-for-attending > p {
+    font-size: .75em;
+    position: absolute;
+    bottom: 2.5em;
 }

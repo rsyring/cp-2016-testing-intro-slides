@@ -1,95 +1,281 @@
 .. default-role:: code
 
 ===========================================
-Database Testing
+Automated Testing Overview & Best Practices
 ===========================================
 
 | By: Randy Syring
 | Twitter: @RandySyring
 | Email: randy.syring@level12.io
-| Slides: https://github.com/rsyring/bookorders
-| Demo: https://github.com/rsyring/db-testing-slides
+| https://github.com/rsyring/
 
 .. epigraph::
-    We solve the problems our customers can't.
+    ...Software THAT WORKS!
 
 .. image:: _static/level12-logo2.png
 
+Introduction
+==============
 
+.. image:: _static/level12-logo.png
+    :align: right
+
+I'm the Chief Executive Developer at Level 12.
+
+Level 12 is a web & database development firm that uses:
+
+- solid engineering,
+- proactive communication, and
+- modern development practices
+
+to make our customers **really, really, happy.**
+
+Why it Matters to You
+=====================
+
+- Level 12 ... uses... **modern development practices**
+- to make **our customers** really, really, happy
+
+Net result: this works and is maintainable in the "real world"
+
+
+Well, my "real world", YMMV
+============================
+
+- Methods & concepts refined over last 7 years
+- Primarily involved in web development (11 years)
+- Not operating *"at scale"*
+- Your context may differ
+
+
+Some Numbers
+============================
+
+- Biggest app:
+
+    * 6+ years
+    * 7,800 Python tests
+    * 350 JS tests
+    * 200+ DB tables
+    * 91% code coverage
+
+- Newer app: 1 year, 1,230 Python tests, 35+ DB tables, 95% coverage
 
 Let's Talk
 ==========
 
-- This presentation is mostly about concepts, not detailed code.
-- I like discussion & feedback.
-- I will likely have extra time, so please ask questions.
-- It's great if I don't know something, don't be afraid to ask!
+- Guiding principles vs implementation
+-  Hopefully leaving time for discussion & feedback
 
-Background & Assumptions
-========================
+Audience Survey
+===============
 
-* Building DB driven web apps for 10 years.
-* In Python and w/ emphasis on testing for about 6 years.
-* Not operating *"at scale"*.
-* Biggest app: 5,275 tests across 207 tables in ~24 mins.
-* I prefer to have the DB server involved when testing the DB.
-* YMMV :)
+.. rst-class:: build
 
-Why Database Testing is Hard:
+* Are testing your code?
+* Are using automated tests?
+* Have a build pipeline that integrates testing?
+* Reasons for not using automated tests?
+* What makes code "untestable"?
+* What do you think of TDD?
+
+I Don't Need No Stink'n Tests
+==============================
+
+.. image:: _static/simple-form.png
+   :class: fullpic
+
+
+I Don't...Need....ummm...help?
+==============================
+
+.. image:: _static/complex-form.jpeg
+   :class: fullpic
+
+
+Test Types Overview
+===================
+
+* unit tests: isolate
+* integration tests: multiple components
+* functional tests: end to end testing
+* acceptance tests: alias for functional tests?
+* sytem tests: infrastructure dependent testing
+* qa tests: let a human break it
+
+Your definitions may differ.
+
+
+Other Test Terms
+================
+
+* Bahavior Driven Development (BDD):
+
+    * acceptance/functional testing
+    * often uses Gherkin, a business readable DSL for writing executable specifications
+
+* Test Driven Development (TDD): write tests before code
+
+
+Where To Begin?
+===============
+
+* Overwhelming, confusing, etc.
+* Goal: high productivity
+* Productivity vs efficiency, anyone?
+
+
+Productive Testing
+==================
+
+* Productive: creating or enhancing value
+* Tests are an investment, invest wisely
+* You are already testing, asset or expense?
+
+
+Test Centric Development (TCD)
+==============================
+
+* do as much productive testing as possible
+* acknowledges that we have limited resources
+* takes into account the 80/20 principle (93%)
+* gives the developer flexibility
+* recognizes different contexts have different needs
+* when done rightly, results in significant test coverage
+* This is not a get out of TDD jail free card!
+
+
+TCD Guiding Principles
 ===================================
 
-- Schema setup
-- Shared state
-- Lack of creativity (a.k.a. creating test data)
-- Slow
+* confidence and quality increase with testing
+* developers write tests at the same time as the code
+* default to writing tests first
+* test core functionality as thoroughly as possible
+* if resources limit testing, cheat less used and/or less important areas
+* if the resources are available, test everything
+* managers and stakeholders need to reinforce the importance of tests
 
-What can you add?
 
-Assets or Liabilities?
+A Final Plea
+============
+
+* You are already testing, capture the value!
+* Good bridges aren't built without blueprints.
+* Just get started.
+* Good tests will lead to better code & greater confidence.
+
+
+You Can't Afford Not To
+===============================
+
+.. image:: _static/roi-graph.png
+   :class: fullpic
+
+
+No Automated Tests? Your World
+===============================
+
+.. image:: _static/pisa.jpg
+   :class: fullpic
+
+
+Dealing with Objectors
 ======================
 
-The items just discussed are testing *liabilities*.
-
-I like assets, not expenses or liabilities.  How about you?
-
-Tests as Assets
-===============
-
-- Easy to setup: the less manual steps the better.
-- Consistent: avoid environment surprises.
-- Idempotent (?): avoid cross-test data contamination.
-- Data creation made easy.
-- Enforce good patterns: my memory is getting worse.
-- Fast: quick iterations make testing enjoyable.
-- Flexible: can roll w/ the punches when assumptions change (migrations)
-
-Tests as Assets
-===============
-
-- **Easy to setup: the less manual steps the better.**
-- Consistent: avoid environment surprises.
-- Idempotent (?): avoid cross-test data contamination.
-- Data creation made easy.
-- Enforce good patterns: my memory is getting worse.
-- Fast: quick iterations make testing enjoyable.
-- Flexible: can roll w/ the punches when assumptions change (migrations)
+* It's a culture issue, use language or metrics that resonate
+* Look for a kindred spirit
+* Become an evangelist
+* Ignore them (if possible)
+* Just start doing it, demonstrate the value
+* Sacrifice some of your own time
+* Consider finding a new job
 
 
-Easy Setup
-==========
+Tip #1: Easy Stuff First
+========================
+
+* Remember this is an investment, how much capital do you have?
+* Focus on unit or functional testing, whichever makes the most sense.
+* Avoid areas of the code that are harder to test (initially).
+
+
+Tip #1: Easy Stuff First
+========================
+
+.. image:: _static/roi-graph.png
+   :class: fullpic
+
+
+Tip #2: Make Code Easier to Test
+================================
+
+* Testing is a first-class activity
+* You should modify your code to make it easier to test
+
+
+Code Testability Example
+========================
+
+.. code-block:: python
+
+    import requests
+
+    def get_project_bandwidth(project_name):
+        url = 'https://pypi.python.org/pypi/{0}/json' \
+            .format(project_name)
+        resp = requests.get(url)
+
+        data = json.loads(resp.text)
+        total_bytes = 0
+        for url in data['urls']:
+            total_bytes += url['size'] * url['downloads']
+        return total_bytes
+
+
+Code Testability Example
+========================
+
+::
+
+    def get_project_bandwidth(project_name):
+        url = 'https://pypi.python.org/pypi/{0}/json' \
+            .format(project_name)
+        resp = requests.get(url)
+
+        return calc_urls_bandwidth(resp.text)
+
+    def calc_urls_bandwidth(json):
+        data = json.loads(json)
+        total_bytes = 0
+        for url in data['urls']:
+            total_bytes += url['size'] * url['downloads']
+        return total_bytes
+
+
+Code Testability Example
+========================
+
+::
+
+    def get_project_bandwidth(project_name):
+        url = 'https://pypi.python.org/pypi/{0}/json' \
+            .format(project_name)
+        resp = requests.get(url)
+
+        return calc_urls_bandwidth(resp.json)
+
+    def calc_urls_bandwidth(project_data):
+        total_bytes = 0
+        for url in project_data['urls']:
+            total_bytes += url['size'] * url['downloads']
+        return total_bytes
+
+
+Tip #3: Easy Test Runs
+======================
 
 Can't emphasize this enough, make it easy for people to run your tests!
-
-Live example - assumptions:
-
-- Ubuntu 14.04
-- Python 3.4 (preferably older than 3.4.0)
-- You have a PostgreSQL server available, preferably with user/password/db setup according to
-  `bookorders.conf:TestProfile`
-- You have a recent version of Tox installed at the system or user level.
-
-No Hassle Clone to Testing
-==========================
 
 .. code-block:: bash
 
@@ -97,395 +283,109 @@ No Hassle Clone to Testing
     $ cd example/
     $ tox
     [...snip...]
-    py34 runtests: commands[1] | py.test -q --tb native --strict --cov bookorders --cov-report xml --no-cov-on-fail --junit-xml=.pytests.xml bookorders
-    ...............
-    [...snip...]
-    flake8 runtests: commands[0] | flake8 bookorders
-    ______________________________________________ summary _______________________________________________
       py34: commands succeeded
       flake8: commands succeeded
       congratulations :)
 
-What Makes This Possible
+Huge confidence booster!
+
+
+Tip #3: Easy Test Runs
 ========================
 
+- Our applications are portable
+- We use a wheelhouse for dependencies.
 - We can make some assumptions about the environment.
-- We have a convention about the default DB connection, but this is easily configured.
-- We use a wheelhouse (https://pypi.python.org/pypi/Wheelhouse).
-- All tests must be ran w/ Tox.
-- This is all closely tied to our CI environment.
+- Deviations are noted in the Readme
+- Inability to run tests this way is a BUG!!
+- Enforced by our CI environment
 
-If you aren't doing something like this, why?
-
-Tests as Assets
-===============
-
-- Easy to setup: the less manual steps the better.
-- **Consistent: avoid environment surprises.**
-- Idempotent (?): avoid cross-test data contamination.
-- Data creation made easy.
-- Enforce good patterns: my memory is getting worse.
-- Fast: quick iterations make testing enjoyable.
-- Flexible: can roll w/ the punches when assumptions change (migrations)
+What are the challenges to doing this in your context?
 
 
-Consistency
-===========
+Tip #4: Eat the Elephant
+========================
 
-- Everyone's tests should pass or fail the same.
-- How are you managing your library versions?
+Focus on constant incremental improvements.
 
-Tests as Assets
-===============
+    We have one simple rule: 'just increase code coverage by 1%'. We are constantly increasing code
+    coverage by writing more test cases. Even if the increase is small, it is still a good thing to do.
 
-- Easy to setup: the less manual steps the better.
-- Consistent: avoid environment surprises.
-- **Idempotent (?): avoid cross-test data contamination.**
-- Data creation made easy.
-- Enforce good patterns: my memory is getting worse.
-- Fast: quick iterations make testing enjoyable.
-- Flexible: can roll w/ the punches when assumptions change (migrations)
+Credit: http://jodd.org/beta.html
+
+Don't get bogged down by the chaos, just start and then increase little by little.
 
 
-Idempotent: Test Prep
-======================
-
-Database is recreated every time tests are ran::
-
-    # https://github.com/level12/keg/blob/master/keg/db/__init__.py
-    class DatabaseManager(object):
-
-        def init_events(self):
-            testing_run_start.connect(self.on_testing_start, sender=self.app)
-
-        def on_testing_start(self, app):
-            self.db_init_with_clear()
-
-        def db_init_with_clear(self):
-            self.db_clear()
-            self.prep_empty()
-            self.db_init()
-
-.. nextslide::
-
-Tests are responsible for making sure DB is in the required state::
-
-    class TestOrdersCrud(object):
-
-        def setup(self):
-            """ py.test will run this before every test
-                method in the class """
-            Order.delete_all()
-
-        def test_add_order(self):
-            OrderCrud.add_order('...')
-            assert Order.query.count() == 1
-
-.. nextslide::
-
-Test prep can be done at the test, class, or module level::
-
-    def setup_module(module):
-        Publisher.delete_all()
-
-    class TestBookEntity(object):
-
-        @classmethod
-        def setup_class(self):
-            cls.author = Author.testing_create()
-
-        def setup(self):
-            Book.delete_all()
-
-        def test_books_author(self):
-            book = Book.testing_create(author=self.author)
-            assert book.author is self.author
-            assert Book.query.count() == 0
-
-Idempotent: Test Cleanup is OK
+Tip #5: Failing Tests Are Never OK!
 ===================================
 
-I prefer data setup as part of the test prep phase...but::
-
-    user_id = None
-    def setup_module(module):
-        global user_id
-        user_id = User.testing_create().id
-
-    class TestOrdersCrud(object):
-        def test_listing(self):
-            Order.testing_create()
-            resp = app.get('/orders/list', user_id=user_id)
-            assert resp.pyquery('table td').length == 1
-
-    class TestPublishersCrud(object):
-        def test_listing(self):
-            Publisher.testing_create()
-            resp = app.get('/publisher/list', user_id=user_id)
-            assert resp.pyquery('table td').length == 1
-
-.. nextslide::
-
-.. code-block:: python
-
-    # setup_method() and other CrudTests are above.
-
-    class TestUsersCrud(object):
-        def test_delete_all(self):
-            resp = app.get('/users/delete?all=1', user_id=user_id)
-            assert User.query.count() == 0
-
-So, what's going to happen now?
-
-.. nextslide::
-
-This test needs to do some cleanup to be a good citizen::
-
-    class TestUsersCrud(object):
-        @classmethod
-        def class_teardown(cls):
-            """ restore assumptions of other tests """
-            global user_id
-            user_id = User.testing_create().id
-
-        def test_delete_all(self):
-            UserCrud.select_all().delete()
-            assert User.query.count() == 0
+* Never commit (or accept a PR) if tests are failing
+* Skips can be used when needed
+* Failed CI builds should email, post to Slack, etc.
 
 
-Tests as Assets
-===============
+Tip #6: Test Runs Should Be Fast
+================================
 
-- Easy to setup: the less manual steps the better.
-- Consistent: avoid environment surprises.
-- Idempotent (?): avoid cross-test data contamination.
-- **Data creation made easy.**
-- Enforce good patterns: my memory is getting worse.
-- Fast: quick iterations make testing enjoyable.
-- Flexible: can roll w/ the punches when assumptions change (migrations)
+* Fast code/test cycles are key
+* Don't do premature optimization
+* Make improvements where needed (cookie story)
+* Know your test runner, work inside out
+* Eventually depend on CI for a full test run
 
 
-Data Creation
-=============
+Tip #7: Know What You are [Not] Testing
+========================================
 
-.. rst-class:: build
-
-- Fixtures or factories?
-- Anyone use fixtures?
-- I prefer factories.
-
-.. nextslide::
-
-Fixtures
-========
-
-.. code-block:: yaml
-
-    - table: authors
-      records:
-        - id: 1, first_name: William, last_name: Gibson
-
-    - table: books
-      records:
-        - id: 1, title: Neuromancer, author_id: 1, published_date: 1984-07-01
-        - id: 2, title: Count Zero, author_id: 1, published_date: 1986-03-01
-        - id: 3, title: Neuromancer, author_id: 1, published_date: 1988-10-01
-
-    - table: orders
-      records:
-        - ident: a, book_id: 1, status: pending
-        - ident: b, book_id: 2, status: shipped
-        - ident: c, book_id: 3, status: delivered
-
-Factories
-=========
-
-Isn't this better?
-
-.. code-block:: python
-
-    Order.testing_create(status='pending')
-    Order.testing_create(status='shipped')
-    Order.testing_create(status='delivered')
-
-Testing Create Method
-=====================
-
-We used to hand-code every `testing_create()` method::
-
-    class Order(db.Model):
-        @classmethod
-        def testing_create(cls, **kwargs):
-            ident = kwargs.get('ident') or randchars()
-            ots = kwargs.get('order_timestamp') or datetime.now()
-            book = kwargs.get('book') or Book.testing_create()
-            # ... etc.
-            return cls.add(ident, ots, book, ...)
-
-
-This isn't hard, but magic is better.
-
-.. nextslide::
+Ask yourself regularily what you are trying to test
 
 ::
 
-    class SurchargeRate(db.Model, MethodsMixin):
-        id = sa.Column(sa.ForeignKey(Action.id, ondelete='cascade'), primary_key=True)
-        table = sa.Column(sa.String(2), nullable=False)
-        card_plan = sa.Column(sa.String(4), nullable=False)
-        charge_type = sa.Column(sa.String(4), nullable=False)
-        combine_code = sa.Column(sa.String(10), nullable=False)
-        description = sa.Column(sa.String(39), nullable=False)
-        # SNIP...four more columns in real life
-
-        # hierarchy relationship
-        hierarchy_id = sa.Column(sa.ForeignKey(Hierarchy.id, ondelete='cascade'), nullable=False)
-        hierarchy = saorm.relationship(Hierarchy, lazy='joined')
-
-        @classmethod
-        def testing_create(cls, **kwargs):
-            if 'hierarchy' not in kwargs and 'hierarchy_id' not in kwargs:
-                kwargs['hierarchy'] = Hierarchy.testing_create(_commit=False)
-            return super().testing_create(**kwargs)
-
-.. nextslide::
-
-See GitHub for `testing_create()` definition.
+    def contact_form(post_args):
+        form = SomeForm(post_args)
+        if form.is_completed():
+            send_contact_email(post_args['name'],
+                post_args['email'], post_args['body'])
+        else:
+            self.render(form.to_html())
 
 
-Tests as Assets
-===============
+Tip #8: Use Code Coverage Tools
+===============================
 
-- Easy to setup: the less manual steps the better.
-- Consistent: avoid environment surprises.
-- Idempotent (?): avoid cross-test data contamination.
-- Data creation made easy.
-- **Enforce good patterns: my memory is getting worse.**
-- Fast: quick iterations make testing enjoyable.
-- Flexible: can roll w/ the punches when assumptions change (migrations)
+.. image:: _static/codecov-summary.png
+   :class: fullpic
 
 
-Enforcing Good Patterns
-=======================
+Tip #8: Use Code Coverage Tools
+===============================
 
-Adding id and timestamp columns using mixins::
-
-    class DefaultColsMixin(object):
-        id = sa.Column(sa.Integer, primary_key=True)
-        created_utc = sa.Column(ArrowType, nullable=False,
-            default=arrow.now, server_default=utcnow())
-        updated_utc = sa.Column(ArrowType, nullable=False,
-            default=arrow.now, onupdate=arrow.now, server_default=utcnow())
-
-.. nextslide::
-
-Using a base test class (on GitHub)::
-
-    class TestSurchargeRate(EntityBase):
-        entity_cls = ents.SurchargeRate
-        delete_all_on = 'setup'
-        column_checks = [
-            ColumnCheck('table'),
-            ColumnCheck('card_plan'),
-            ColumnCheck('charge_type'),
-            ColumnCheck('combine_code'),
-            ColumnCheck('description'),
-            ColumnCheck('pi_apply_type'),
-            ColumnCheck('pi_rate'),
-            ColumnCheck('pct_apply_type'),
-            ColumnCheck('pct_rate'),
-            ColumnCheck('hiearchy_id', fk='actions.id'),
-        ]
+.. image:: _static/gh-codecov-comment.png
+   :class: fullpic
 
 
-Patterns to Enforce
-===================
+Tip #9:
+===============================
 
-- Checking nulls: SA default is NULL
-- unique columns & multi-column unique constraints
-- foreign key cascades
-- relationship cascades
-- created and updated timestamp columns
-- utc vs non-utc timestamps
-- add & count record
-- make sure all columns have been tested
-
-Tests as Assets
-===============
-
-- Easy to setup: the less manual steps the better.
-- Consistent: avoid environment surprises.
-- Idempotent (?): avoid cross-test data contamination.
-- Data creation made easy.
-- Enforce good patterns: my memory is getting worse.
-- **Fast: quick iterations make testing enjoyable.**
-- Flexible: can roll w/ the punches when assumptions change (migrations)
+.. image:: _static/meme.jpg
+   :class: fullpic
 
 
-Speed: As Fast as Reasonable
-============================
+Tip #9: Automate All The Things
+===============================
 
-Don't do premature optimization!  (example)
+* A continuous integration (CI) environment brings great stability
+* Put this in place ASAP, it will pay dividends
+* Include as much as possible: testing, linting, complexity, code coverage
 
-.. rst-class:: build
-
-- Avoid DB round trips when possible (CSV of user emails)
-- Creating testing objects without committing or flushing to the DB.
-- Testing the configuration, not the execution (nullability & FK)
-- Knowing when to commit (nested objects)
-
-.. nextslide::
-
-.. rst-class:: build
-
-- Be careful of network/vm issues that can slow data connections (dev example).
-- Maybe test with in-memory SQLite (watch our for foreign key, data type issues)
-- Run only the tests you need, follow the inside-out pattern.
-- Parallelize your tests.
-
-Tests as Assets
-===============
-
-- Easy to setup: the less manual steps the better.
-- Consistent: avoid environment surprises.
-- Idempotent (?): avoid cross-test data contamination.
-- Data creation made easy.
-- Enforce good patterns: my memory is getting worse.
-- Fast: quick iterations make testing enjoyable.
-- **Flexible: can roll w/ the punches when assumptions change (migrations)**
-
-
-Flexibility: Migrations
-=======================
-
-Migrations break many of the assumptions we have made.  Let's consider a migration that:
-
-- Creates a `user_emails` table and migrates `users.email` to said table
-- Removes `users.email`
-- Searches users email and replaces "#" with "@"
-
-Migrations: Current Production Schema
-=====================================
-
-- By the time you write these tests, your model reflects the new configuration.
-- You will need a way to recreate the schema as it existed.
-- You may want to isolate your migration tests, they are not long-term assets.
-
-Migration: Testing Workflow
-===========================
-
-.. rst-class:: build
-
-- Get the old schema loaded
-- Run Phase I of the migration (creating new schema)
-- Load data and run tests that verify data migrations (using SQL or Automap)
-- Run Phase II of the migration (cleanup old schema)
-- Run tests to verify schema cleanup (SQL)
-- Run tests to verify migration that didn't depend on old schema (current Entities)
-
-Thanks
+Thanks For Attending
 ======================
 
-Thanks for attending!
+| By: Randy Syring
+| Twitter: @RandySyring
+| Email: randy.syring@level12.io
+| https://github.com/rsyring/
+
+ROI graph credit: Leonard Fingerman, http://www.slideshare.net/lfingerman/test-automation-best-prcatices-with-soa-test-approach
 
 
