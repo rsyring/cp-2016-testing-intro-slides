@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Automated Testing Overview &amp; Best Practices &mdash; Database Testing 2015.08.01 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2015.08.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    
+    <link rel="top" title="Database Testing 2015.08.01 documentation" href="#" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  
+<article class="slide level-1" id="automated-testing-overview-best-practices">
+
+<h1>Automated Testing Overview &amp; Best Practices</h1>
+
+<div class="line-block">
+<div class="line">By: Randy Syring</div>
+<div class="line">Twitter: &#64;RandySyring</div>
+<div class="line">Email: <a class="reference external" href="mailto:randy&#46;syring&#37;&#52;&#48;level12&#46;io">randy<span>&#46;</span>syring<span>&#64;</span>level12<span>&#46;</span>io</a></div>
+<div class="line"><a class="reference external" href="https://github.com/rsyring/">https://github.com/rsyring/</a></div>
+</div>
+<q class="epigraph">
+...Software THAT WORKS!</q>
+<img alt="_images/level12-logo2.png" src="_images/level12-logo2.png" />
+
+
+
+
+</article>
+<article class="slide level-2" id="introduction">
+
+<h2>Introduction</h2>
+
+<img alt="_images/level12-logo.png" class="align-right" src="_images/level12-logo.png" />
+<p>I'm the Chief Executive Developer at Level 12.</p>
+<p>Level 12 is a web &amp; database development firm that uses:</p>
+<ul class="simple">
+<li>solid engineering,</li>
+<li>proactive communication, and</li>
+<li>modern development practices</li>
+</ul>
+<p>to make our customers <strong>really, really, happy.</strong></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="why-it-matters-to-you">
+
+<h2>Why it Matters to You</h2>
+
+<ul class="simple">
+<li>Level 12 ... uses... <strong>modern development practices</strong></li>
+<li>to make <strong>our customers</strong> really, really, happy</li>
+</ul>
+<p>Net result: this works and is maintainable in the &quot;real world&quot;</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="well-my-real-world-ymmv">
+
+<h2>Well, my &quot;real world&quot;, YMMV</h2>
+
+<ul class="simple">
+<li>Methods &amp; concepts refined over last 7 years</li>
+<li>Primarily involved in web development (11 years)</li>
+<li>Not operating <em>&quot;at scale&quot;</em></li>
+<li>Your context may differ</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="some-numbers">
+
+<h2>Some Numbers</h2>
+
+<ul>
+<li><p class="first">Biggest app:</p>
+<blockquote>
+<div><ul class="simple">
+<li>6+ years</li>
+<li>7,800 Python tests</li>
+<li>350 JS tests</li>
+<li>200+ DB tables</li>
+<li>91% code coverage</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Newer app: 1 year, 1,230 Python tests, 35+ DB tables, 95% coverage</p>
+</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="let-s-talk">
+
+<h2>Let's Talk</h2>
+
+<ul class="simple">
+<li>Guiding principles vs implementation</li>
+<li>Hopefully leaving time for discussion &amp; feedback</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="audience-survey">
+
+<h2>Audience Survey</h2>
+
+<ul class="build simple">
+<li>Are testing your code?</li>
+<li>Are using automated tests?</li>
+<li>Have a build pipeline that integrates testing?</li>
+<li>Reasons for not using automated tests?</li>
+<li>What makes code &quot;untestable&quot;?</li>
+<li>What do you think of TDD?</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="i-don-t-need-no-stink-n-tests">
+
+<h2>I Don't Need No Stink'n Tests</h2>
+
+<img alt="_images/simple-form.png" class="fullpic" src="_images/simple-form.png" />
+
+
+
+
+</article>
+<article class="slide level-2" id="i-don-t-need-ummm-help">
+
+<h2>I Don't...Need....ummm...help?</h2>
+
+<img alt="_images/complex-form.jpeg" class="fullpic" src="_images/complex-form.jpeg" />
+
+
+
+
+</article>
+<article class="slide level-2" id="test-types-overview">
+
+<h2>Test Types Overview</h2>
+
+<ul class="simple">
+<li>unit tests: isolate</li>
+<li>integration tests: multiple components</li>
+<li>functional tests: end to end testing</li>
+<li>acceptance tests: alias for functional tests?</li>
+<li>sytem tests: infrastructure dependent testing</li>
+<li>qa tests: let a human break it</li>
+</ul>
+<p>Your definitions may differ.</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="other-test-terms">
+
+<h2>Other Test Terms</h2>
+
+<ul>
+<li><p class="first">Bahavior Driven Development (BDD):</p>
+<blockquote>
+<div><ul class="simple">
+<li>acceptance/functional testing</li>
+<li>often uses Gherkin, a business readable DSL for writing executable specifications</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Test Driven Development (TDD): write tests before code</p>
+</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="where-to-begin">
+
+<h2>Where To Begin?</h2>
+
+<ul class="simple">
+<li>Overwhelming, confusing, etc.</li>
+<li>Goal: high productivity</li>
+<li>Productivity vs efficiency, anyone?</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="productive-testing">
+
+<h2>Productive Testing</h2>
+
+<ul class="simple">
+<li>Productive: creating or enhancing value</li>
+<li>Tests are an investment, invest wisely</li>
+<li>You are already testing, asset or expense?</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="test-centric-development-tcd">
+
+<h2>Test Centric Development (TCD)</h2>
+
+<ul class="simple">
+<li>do as much productive testing as possible</li>
+<li>acknowledges that we have limited resources</li>
+<li>takes into account the 80/20 principle (93%)</li>
+<li>gives the developer flexibility</li>
+<li>recognizes different contexts have different needs</li>
+<li>when done rightly, results in significant test coverage</li>
+<li>This is not a get out of TDD jail free card!</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="tcd-guiding-principles">
+
+<h2>TCD Guiding Principles</h2>
+
+<ul class="simple">
+<li>confidence and quality increase with testing</li>
+<li>developers write tests at the same time as the code</li>
+<li>default to writing tests first</li>
+<li>test core functionality as thoroughly as possible</li>
+<li>if resources limit testing, cheat less used and/or less important areas</li>
+<li>if the resources are available, test everything</li>
+<li>managers and stakeholders need to reinforce the importance of tests</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="a-final-plea">
+
+<h2>A Final Plea</h2>
+
+<ul class="simple">
+<li>You are already testing, capture the value!</li>
+<li>Good bridges aren't built without blueprints.</li>
+<li>Just get started.</li>
+<li>Good tests will lead to better code &amp; greater confidence.</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="you-can-t-afford-not-to">
+
+<h2>You Can't Afford Not To</h2>
+
+<img alt="_images/roi-graph.png" class="fullpic" src="_images/roi-graph.png" />
+
+
+
+
+</article>
+<article class="slide level-2" id="no-automated-tests-your-world">
+
+<h2>No Automated Tests? Your World</h2>
+
+<img alt="_images/pisa.jpg" class="fullpic" src="_images/pisa.jpg" />
+
+
+
+
+</article>
+<article class="slide level-2" id="dealing-with-objectors">
+
+<h2>Dealing with Objectors</h2>
+
+<ul class="simple">
+<li>It's a culture issue, use language or metrics that resonate</li>
+<li>Look for a kindred spirit</li>
+<li>Become an evangelist</li>
+<li>Ignore them (if possible)</li>
+<li>Just start doing it, demonstrate the value</li>
+<li>Sacrifice some of your own time</li>
+<li>Consider finding a new job</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-1-easy-stuff-first">
+
+<h2>Tip #1: Easy Stuff First</h2>
+
+<ul class="simple">
+<li>Remember this is an investment, how much capital do you have?</li>
+<li>Focus on unit or functional testing, whichever makes the most sense.</li>
+<li>Avoid areas of the code that are harder to test (initially).</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="id1">
+
+<h2>Tip #1: Easy Stuff First</h2>
+
+<img alt="_images/roi-graph.png" class="fullpic" src="_images/roi-graph.png" />
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-2-make-code-easier-to-test">
+
+<h2>Tip #2: Make Code Easier to Test</h2>
+
+<ul class="simple">
+<li>Testing is a first-class activity</li>
+<li>You should modify your code to make it easier to test</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="code-testability-example">
+
+<h2>Code Testability Example</h2>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">def</span> <span class="nf">get_project_bandwidth</span><span class="p">(</span><span class="n">project_name</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://pypi.python.org/pypi/{0}/json&#39;</span> \
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">total_bytes</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;urls&#39;</span><span class="p">]:</span>
+        <span class="n">total_bytes</span> <span class="o">+=</span> <span class="n">url</span><span class="p">[</span><span class="s">&#39;size&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">url</span><span class="p">[</span><span class="s">&#39;downloads&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">total_bytes</span>
+</pre></div>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="id2">
+
+<h2>Code Testability Example</h2>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_project_bandwidth</span><span class="p">(</span><span class="n">project_name</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://pypi.python.org/pypi/{0}/json&#39;</span> \
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">calc_urls_bandwidth</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calc_urls_bandwidth</span><span class="p">(</span><span class="n">json</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+    <span class="n">total_bytes</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;urls&#39;</span><span class="p">]:</span>
+        <span class="n">total_bytes</span> <span class="o">+=</span> <span class="n">url</span><span class="p">[</span><span class="s">&#39;size&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">url</span><span class="p">[</span><span class="s">&#39;downloads&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">total_bytes</span>
+</pre></div>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="id3">
+
+<h2>Code Testability Example</h2>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_project_bandwidth</span><span class="p">(</span><span class="n">project_name</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://pypi.python.org/pypi/{0}/json&#39;</span> \
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">calc_urls_bandwidth</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calc_urls_bandwidth</span><span class="p">(</span><span class="n">project_data</span><span class="p">):</span>
+    <span class="n">total_bytes</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">project_data</span><span class="p">[</span><span class="s">&#39;urls&#39;</span><span class="p">]:</span>
+        <span class="n">total_bytes</span> <span class="o">+=</span> <span class="n">url</span><span class="p">[</span><span class="s">&#39;size&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">url</span><span class="p">[</span><span class="s">&#39;downloads&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">total_bytes</span>
+</pre></div>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-3-easy-test-runs">
+
+<h2>Tip #3: Easy Test Runs</h2>
+
+<p>Can't emphasize this enough, make it easy for people to run your tests!</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git clone https://github.com/rsyring/bookorders example
+<span class="nv">$ </span><span class="nb">cd </span>example/
+<span class="nv">$ </span>tox
+<span class="o">[</span>...snip...<span class="o">]</span>
+  py34: commands succeeded
+  flake8: commands succeeded
+  congratulations :<span class="o">)</span>
+</pre></div>
+</div>
+<p>Huge confidence booster!</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="id4">
+
+<h2>Tip #3: Easy Test Runs</h2>
+
+<ul class="simple">
+<li>Our applications are portable</li>
+<li>We use a wheelhouse for dependencies.</li>
+<li>We can make some assumptions about the environment.</li>
+<li>Deviations are noted in the Readme</li>
+<li>Inability to run tests this way is a BUG!!</li>
+<li>Enforced by our CI environment</li>
+</ul>
+<p>What are the challenges to doing this in your context?</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-4-eat-the-elephant">
+
+<h2>Tip #4: Eat the Elephant</h2>
+
+<p>Focus on constant incremental improvements.</p>
+<q>
+We have one simple rule: 'just increase code coverage by 1%'. We are constantly increasing code
+coverage by writing more test cases. Even if the increase is small, it is still a good thing to do.</q>
+<p>Credit: <a class="reference external" href="http://jodd.org/beta.html">http://jodd.org/beta.html</a></p>
+<p>Don't get bogged down by the chaos, just start and then increase little by little.</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-5-failing-tests-are-never-ok">
+
+<h2>Tip #5: Failing Tests Are Never OK!</h2>
+
+<ul class="simple">
+<li>Never commit (or accept a PR) if tests are failing</li>
+<li>Skips can be used when needed</li>
+<li>Failed CI builds should email, post to Slack, etc.</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-6-test-runs-should-be-fast">
+
+<h2>Tip #6: Test Runs Should Be Fast</h2>
+
+<ul class="simple">
+<li>Fast code/test cycles are key</li>
+<li>Don't do premature optimization</li>
+<li>Make improvements where needed (cookie story)</li>
+<li>Know your test runner, work inside out</li>
+<li>Eventually depend on CI for a full test run</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-7-know-what-you-are-not-testing">
+
+<h2>Tip #7: Know What You are [Not] Testing</h2>
+
+<p>Ask yourself regularily what you are trying to test</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">contact_form</span><span class="p">(</span><span class="n">post_args</span><span class="p">):</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">SomeForm</span><span class="p">(</span><span class="n">post_args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_completed</span><span class="p">():</span>
+        <span class="n">send_contact_email</span><span class="p">(</span><span class="n">post_args</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span>
+            <span class="n">post_args</span><span class="p">[</span><span class="s">&#39;email&#39;</span><span class="p">],</span> <span class="n">post_args</span><span class="p">[</span><span class="s">&#39;body&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">to_html</span><span class="p">())</span>
+</pre></div>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-8-use-code-coverage-tools">
+
+<h2>Tip #8: Use Code Coverage Tools</h2>
+
+<img alt="_images/codecov-summary.png" class="fullpic" src="_images/codecov-summary.png" />
+
+
+
+
+</article>
+<article class="slide level-2" id="id5">
+
+<h2>Tip #8: Use Code Coverage Tools</h2>
+
+<img alt="_images/gh-codecov-comment.png" class="fullpic" src="_images/gh-codecov-comment.png" />
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-9">
+
+<h2>Tip #9:</h2>
+
+<img alt="_images/meme.jpg" class="fullpic" src="_images/meme.jpg" />
+
+
+
+
+</article>
+<article class="slide level-2" id="tip-9-automate-all-the-things">
+
+<h2>Tip #9: Automate All The Things</h2>
+
+<ul class="simple">
+<li>A continuous integration (CI) environment brings great stability</li>
+<li>Put this in place ASAP, it will pay dividends</li>
+<li>Include as much as possible: testing, linting, complexity, code coverage</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="thanks-for-attending">
+
+<h2>Thanks For Attending</h2>
+
+<div class="line-block">
+<div class="line">By: Randy Syring</div>
+<div class="line">Twitter: &#64;RandySyring</div>
+<div class="line">Email: <a class="reference external" href="mailto:randy&#46;syring&#37;&#52;&#48;level12&#46;io">randy<span>&#46;</span>syring<span>&#64;</span>level12<span>&#46;</span>io</a></div>
+<div class="line"><a class="reference external" href="https://github.com/rsyring/">https://github.com/rsyring/</a></div>
+</div>
+<p>ROI graph credit: Leonard Fingerman, <a class="reference external" href="http://www.slideshare.net/lfingerman/test-automation-best-prcatices-with-soa-test-approach">http://www.slideshare.net/lfingerman/test-automation-best-prcatices-with-soa-test-approach</a></p>
+
+
+
+
+</article>
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>
