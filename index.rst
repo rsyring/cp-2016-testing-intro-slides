@@ -20,7 +20,7 @@ Introduction
 .. image:: _static/level12-logo.png
     :align: right
 
-I'm the Chief Executive Developer at Level 12.
+I'm the Chief Executive Developer at `Level 12`_.
 
 Level 12 is a web & database development firm that uses:
 
@@ -29,6 +29,8 @@ Level 12 is a web & database development firm that uses:
 - modern development practices
 
 to make our customers **really, really, happy.**
+
+.. Level 12: https://www.level12.io/
 
 Why it Matters to You
 =====================
