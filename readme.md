@@ -18,6 +18,6 @@ Slide Viewer
 To view the slides, visit:
 [Automated Testing Overview & Best Practices (slides) by Randy Syring][slides]
 
-[slides]: https://rawgit.com/rsyring/cp-2016-testing-intro-slides/master/_build/slides/index.html
+[slides]: https://cdn.rawgit.com/rsyring/cp-2016-testing-intro-slides/master/_build/slides/index.html
 
 
